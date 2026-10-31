@@ -2,9 +2,9 @@
   "answered": 0.9583333333333334,
   "correct": 0.8,
   "correct_or_partial": 0.875,
-  "refused_unanswerable": 0.8620689655172413,
-  "sentences_supported": 0.9090909090909091,
-  "sentences_partial": 0.08021390374331551,
-  "sentences_unsupported": 0.0106951871657754,
+  "refused_unanswerable": 0.9655172413793104,
+  "sentences_supported": 0.9120879120879121,
+  "sentences_partial": 0.07692307692307693,
+  "sentences_unsupported": 0.01098901098901099,
   "closed_book_refused_unanswerable": 0.7931034482758621
 }
