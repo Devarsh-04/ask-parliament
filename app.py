@@ -4,11 +4,13 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
-from groq import Groq
+from groq import Groq, RateLimitError
+from huggingface_hub import snapshot_download
 
 from answer import answer
 from search import Searcher
 
+HF_DATASET = "Devarsh2004/ask-parliament-index"
 EXAMPLES = [
     "How does David Gillespie say gas shortages are hurting Australian manufacturing?",
     "When is the Western Sydney International Airport expected to open to passengers?",
@@ -21,6 +23,8 @@ st.set_page_config(page_title="Ask Parliament", page_icon="🏛️", layout="cen
 @st.cache_resource
 def load():
     load_dotenv(".env")
+    if not Path("data/chunks.parquet").exists():
+        snapshot_download(HF_DATASET, repo_type="dataset", local_dir="data")
     return Searcher(), pd.read_parquet("data/chunks.parquet"), Groq(max_retries=3)
 
 
@@ -36,8 +40,14 @@ question = st.text_input("Your question", value=example or "")
 if question:
     with st.spinner("Searching Hansard..."):
         passages = chunks.iloc[searcher.search(question, "rerank", k=5)]
-        result = answer(client, question, passages)
-    if result["found"]:
+        try:
+            result = answer(client, question, passages)
+        except RateLimitError:
+            result = None
+    if result is None:
+        st.warning("The free daily AI limit has been reached, so no answer can be written. "
+                   "The closest passages are below.")
+    elif result["found"]:
         st.markdown(" ".join(f"{s['text']} {''.join(f'[{c}]' for c in s['cites'])}"
                              for s in result["sentences"]))
     else:
