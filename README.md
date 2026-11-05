@@ -1,5 +1,7 @@
 # Ask Parliament
 
+[![tests](https://github.com/Devarsh-04/ask-parliament/actions/workflows/tests.yml/badge.svg)](https://github.com/Devarsh-04/ask-parliament/actions/workflows/tests.yml)
+
 Ask questions about Australian federal parliament debates (Hansard, February 2024 to October 2026) and get short answers where every sentence cites the speech it came from. If the debates don't cover it, the app says so.
 
 **Try it: [btn3a7fez2hnpm4mgnqclg.streamlit.app](https://btn3a7fez2hnpm4mgnqclg.streamlit.app/)**
