@@ -35,7 +35,7 @@ st.caption("Ask about Australian federal parliament debates, Feb 2024 – Oct 20
 searcher, chunks, client = load()
 
 example = st.pills("Try one", EXAMPLES)
-question = st.text_input("Your question", value=example or "")
+question = st.text_input("Your question", value=example or "", max_chars=300)
 
 if question:
     with st.spinner("Searching Hansard..."):
